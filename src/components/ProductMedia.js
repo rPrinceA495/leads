@@ -10,8 +10,6 @@ const ProductMedia = ({ image, title, description, right, ...restProps }) => {
     <Media {...restProps}>
       <Media left>
         <Media
-          object
-          src={image}
           className="rounded mr-2 mb-2"
           style={{ width: 100, height: 'auto' }}
         />

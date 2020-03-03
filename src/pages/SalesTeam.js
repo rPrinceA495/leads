@@ -2,7 +2,7 @@ import Page from 'components/Page';
 import React from 'react';
 import { Card, CardBody, CardHeader, Col, Row, Table } from 'reactstrap';
 
-const tableTypes = ['', 'bordered', 'striped', 'hover'];
+const tableTypes = [];
 
 const TablePage = () => {
   return (
@@ -24,7 +24,7 @@ const TablePage = () => {
                         <thead>
                           <tr>
                             <th>#</th>
-                            <th>First Name</th>
+                            <th>Fire</th>
                             <th>Last Name</th>
                             <th>Username</th>
                           </tr>
@@ -33,7 +33,7 @@ const TablePage = () => {
                           <tr>
                             <th scope="row">1</th>
                             <td>Mark</td>
-                            <td>Otto</td>
+                            <td>larry</td>
                             <td>@mdo</td>
                           </tr>
                           <tr>
@@ -68,7 +68,7 @@ const TablePage = () => {
                           <tr>
                             <th scope="row">1</th>
                             <td>Mark</td>
-                            <td>Otto</td>
+                            <td>larry</td>
                             <td>@mdo</td>
                           </tr>
                           <tr>
@@ -258,7 +258,45 @@ const TablePage = () => {
         </Col>
       </Row>
 
-
+      <Row>
+        <Col>
+          <Card className="mb-3">
+            <CardHeader>Responsive</CardHeader>
+            <CardBody>
+              <Table responsive>
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Username</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row">1</th>
+                    <td>Mark</td>
+                    <td>larry</td>
+                    <td>@mdo</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">2</th>
+                    <td>Jacob</td>
+                    <td>Thornton</td>
+                    <td>@fat</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">3</th>
+                    <td>Larry</td>
+                    <td>the Bird</td>
+                    <td>@twitter</td>
+                  </tr>
+                </tbody>
+              </Table>
+            </CardBody>
+          </Card>
+        </Col>
+      </Row>
 
       <Row>
         <Col>
@@ -278,7 +316,7 @@ const TablePage = () => {
                   <tr>
                     <th scope="row">1</th>
                     <td>Mark</td>
-                    <td>Otto</td>
+                    <td>larry</td>
                     <td>@mdo</td>
                   </tr>
                   <tr>

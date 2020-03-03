@@ -219,6 +219,7 @@ const CardPage = () => {
           </Col>
         ))}
       </Row>
+      
     </Page>
   );
 };

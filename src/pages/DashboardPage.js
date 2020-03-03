@@ -10,13 +10,14 @@ import { getStackLineChart, stackLineChartOptions } from 'demos/chartjs';
 import {
   avatarsData,
   chartjs,
-  productsData,
+  regionData,
+  reasonData,
   supportTicketsData,
   todosData,
   userProgressTableData,
 } from 'demos/dashboardPage';
 import React from 'react';
-import { Bar, Line } from 'react-chartjs-2';
+import { Bar, Line, Pie } from 'react-chartjs-2';
 import {
   MdBubbleChart,
   MdInsertChart,
@@ -38,11 +39,124 @@ import {
   CardHeader,
   CardTitle,
   Col,
+  Table, 
+  Form,
+  FormFeedback,
+  FormGroup,
+  FormText,
+  Input,
+  Label,
   ListGroup,
   ListGroupItem,
   Row,
 } from 'reactstrap';
 import { getColor } from 'utils/colors';
+import { randomNum } from 'utils/demos';
+
+
+const DAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+
+const genRegionData = () => {
+  return {
+    datasets: [
+      {
+        data: [randomNum(), randomNum(), randomNum(), randomNum(), randomNum()],
+        backgroundColor: [
+          getColor('primary'),
+          getColor('secondary'),
+          getColor('success'),
+          getColor('info'),
+          getColor('danger'),
+        ],
+        label: 'Dataset 1',
+      },
+    ],
+    labels: ['Game City Branch', 'Molepolole Branch', 'Francistown Branch', 'Ghanzi Branch'],
+  };
+};
+
+const genReasonData = () => {
+  return {
+    datasets: [
+      {
+        data: [randomNum(), randomNum(), randomNum(), randomNum(), randomNum()],
+        backgroundColor: [
+          getColor('primary'),
+          getColor('secondary'),
+          getColor('success'),
+          getColor('info'),
+          getColor('danger'),
+        ],
+        label: 'Dataset 1',
+      },
+    ],
+    labels: ['9 month Tribesman', '3 month Tribesman', 'Inquiry', 'Complaint', 'Other'],
+  };
+};
+
+const genLineData = (moreData = {}, moreData2 = {}) => {
+  return {
+    labels: DAYS,
+    datasets: [
+      {
+        label: 'Average team performance',
+        backgroundColor: getColor('primary'),
+        borderColor: getColor('primary'),
+        borderWidth: 1,
+        data: [
+          randomNum(),
+          randomNum(),
+          randomNum(),
+          randomNum(),
+          randomNum(),
+          randomNum(),
+          randomNum(),
+        ],
+        ...moreData,
+      }
+    ],
+  };
+};
+
+const genLineBarData = (moreData = {}, moreData2 = {}) => {
+  return {
+    labels: DAYS,
+    datasets: [
+      {
+        label: 'My Performance',
+        backgroundColor: getColor('primary'),
+        borderColor: getColor('primary'),
+        borderWidth: 1,
+        data: [
+          randomNum(),
+          randomNum(),
+          randomNum(),
+          randomNum(),
+          randomNum(),
+          randomNum(),
+          randomNum(),
+        ],
+        ...moreData,
+      },
+      {
+        label: 'Average Team Performance',
+        backgroundColor: getColor('secondary'),
+        borderColor: getColor('secondary'),
+        borderWidth: 1,
+        data: [
+          randomNum(),
+          randomNum(),
+          randomNum(),
+          randomNum(),
+          randomNum(),
+          randomNum(),
+          randomNum(),
+        ],
+        ...moreData,
+      }
+    ],
+  };
+};
 
 const today = new Date();
 const lastWeek = new Date(
@@ -62,136 +176,54 @@ class DashboardPage extends React.Component {
     const secondaryColor = getColor('secondary');
 
     return (
+      <React.Fragment>
+
       <Page
         className="DashboardPage"
-        title="Dashboard"
+        title="Admin Dashboard"
         breadcrumbs={[{ name: 'Dashboard', active: true }]}
       >
         <Row>
           <Col lg={3} md={6} sm={6} xs={12}>
             <NumberWidget
-              title="Total Profit"
-              subtitle="This month"
-              number="9.8k"
-              color="secondary"
-              progress={{
-                value: 75,
-                label: 'Last month',
-              }}
+              title="Number of Users"
+              number="85"
+             
             />
           </Col>
 
           <Col lg={3} md={6} sm={6} xs={12}>
             <NumberWidget
-              title="Monthly Visitors"
-              subtitle="This month"
-              number="5,400"
-              color="secondary"
-              progress={{
-                value: 45,
-                label: 'Last month',
-              }}
+              title="Total Number of Leads"
+              number="123"
             />
           </Col>
 
           <Col lg={3} md={6} sm={6} xs={12}>
             <NumberWidget
-              title="New Users"
-              subtitle="This month"
-              number="3,400"
-              color="secondary"
-              progress={{
-                value: 90,
-                label: 'Last month',
-              }}
+              title="Assigned Leads"
+              number="50"
+             
+             
             />
           </Col>
 
           <Col lg={3} md={6} sm={6} xs={12}>
             <NumberWidget
-              title="Bounce Rate"
-              subtitle="This month"
-              number="38%"
-              color="secondary"
-              progress={{
-                value: 60,
-                label: 'Last month',
-              }}
+              title="Unassigned Leads"
+              number="73"
+             
             />
           </Col>
         </Row>
 
         <Row>
-          <Col lg="8" md="12" sm="12" xs="12">
-            <Card>
-              <CardHeader>
-                Total Revenue{' '}
-                <small className="text-muted text-capitalize">This year</small>
-              </CardHeader>
-              <CardBody>
-                <Line data={chartjs.line.data} options={chartjs.line.options} />
-              </CardBody>
-            </Card>
-          </Col>
 
-          <Col lg="4" md="12" sm="12" xs="12">
+        <Col md="6" sm="12" xs="12">
             <Card>
-              <CardHeader>Total Expense</CardHeader>
+              <CardHeader>Leads by Location</CardHeader>
               <CardBody>
-                <Bar data={chartjs.bar.data} options={chartjs.bar.options} />
-              </CardBody>
-              <ListGroup flush>
-                <ListGroupItem>
-                  <MdInsertChart size={25} color={primaryColor} /> Cost of sales{' '}
-                  <Badge color="secondary">$3000</Badge>
-                </ListGroupItem>
-                <ListGroupItem>
-                  <MdBubbleChart size={25} color={primaryColor} /> Management
-                  costs <Badge color="secondary">$1200</Badge>
-                </ListGroupItem>
-                <ListGroupItem>
-                  <MdShowChart size={25} color={primaryColor} /> Financial costs{' '}
-                  <Badge color="secondary">$800</Badge>
-                </ListGroupItem>
-                <ListGroupItem>
-                  <MdPieChart size={25} color={primaryColor} /> Other operating
-                  costs <Badge color="secondary">$2400</Badge>
-                </ListGroupItem>
-              </ListGroup>
-            </Card>
-          </Col>
-        </Row>
-
-        <CardGroup style={{ marginBottom: '1rem' }}>
-          <IconWidget
-            bgColor="white"
-            inverse={false}
-            icon={MdThumbUp}
-            title="50+ Likes"
-            subtitle="People you like"
-          />
-          <IconWidget
-            bgColor="white"
-            inverse={false}
-            icon={MdRateReview}
-            title="10+ Reviews"
-            subtitle="New Reviews"
-          />
-          <IconWidget
-            bgColor="white"
-            inverse={false}
-            icon={MdShare}
-            title="30+ Shares"
-            subtitle="New Shares"
-          />
-        </CardGroup>
-
-        <Row>
-          <Col md="6" sm="12" xs="12">
-            <Card>
-              <CardHeader>New Products</CardHeader>
-              <CardBody>
-                {productsData.map(
+                {regionData.map(
                   ({ id, image, title, description, right }) => (
                     <ProductMedia
                       key={id}
@@ -206,112 +238,61 @@ class DashboardPage extends React.Component {
             </Card>
           </Col>
 
-          <Col md="6" sm="12" xs="12">
+          <Col xl={6} lg={12} md={12}>
+          <Card>
+            <CardHeader>Leads by Location</CardHeader>
+            <CardBody>
+              <Pie data={genRegionData()} />
+            </CardBody>
+          </Card>
+        </Col>
+
+        </Row>
+
+        <Row>
+
+        <Col md="6" sm="12" xs="12">
             <Card>
-              <CardHeader>New Users</CardHeader>
+              <CardHeader>Leads by Reason</CardHeader>
               <CardBody>
-                <UserProgressTable
-                  headers={[
-                    <MdPersonPin size={25} />,
-                    'name',
-                    'date',
-                    'participation',
-                    '%',
-                  ]}
-                  usersData={userProgressTableData}
-                />
+                {reasonData.map(
+                  ({ id, image, title, description, right }) => (
+                    <ProductMedia
+                      key={id}
+                      image={image}
+                      title={title}
+                      description={description}
+                      right={right}
+                    />
+                  ),
+                )}
               </CardBody>
             </Card>
           </Col>
+
+          <Col xl={6} lg={12} md={12}>
+          <Card>
+            <CardHeader>Leads by Reason</CardHeader>
+            <CardBody>
+              <Pie data={genReasonData()} />
+            </CardBody>
+          </Card>
+        </Col>
+
         </Row>
 
         <Row>
-          <Col lg={4} md={4} sm={12} xs={12}>
-            <Card>
-              <Line
-                data={getStackLineChart({
-                  labels: [
-                    'January',
-                    'February',
-                    'March',
-                    'April',
-                    'May',
-                    'June',
-                    'July',
-                  ],
-                  data: [0, 13000, 5000, 24000, 16000, 25000, 10000],
-                })}
-                options={stackLineChartOptions}
-              />
-              <CardBody
-                className="text-primary"
-                style={{ position: 'absolute' }}
-              >
-                <CardTitle>
-                  <MdInsertChart /> Sales
-                </CardTitle>
-              </CardBody>
-            </Card>
-          </Col>
+          
+        <Col xl={8} lg={12} md={12}>
+          <Card>
+            <CardHeader>Daily Aggregated Team Performance</CardHeader>
+            <CardBody>
+              <Line data={genLineData({ fill: false }, { fill: false })} />
+            </CardBody>
+          </Card>
+        </Col>
 
-          <Col lg={4} md={4} sm={12} xs={12}>
-            <Card>
-              <Line
-                data={getStackLineChart({
-                  labels: [
-                    'January',
-                    'February',
-                    'March',
-                    'April',
-                    'May',
-                    'June',
-                    'July',
-                  ],
-                  data: [10000, 15000, 5000, 10000, 5000, 10000, 10000],
-                })}
-                options={stackLineChartOptions}
-              />
-              <CardBody
-                className="text-primary"
-                style={{ position: 'absolute' }}
-              >
-                <CardTitle>
-                  <MdInsertChart /> Revenue
-                </CardTitle>
-              </CardBody>
-            </Card>
-          </Col>
-          <Col lg={4} md={4} sm={12} xs={12}>
-            <Card>
-              <Line
-                data={getStackLineChart({
-                  labels: [
-                    'January',
-                    'February',
-                    'March',
-                    'April',
-                    'May',
-                    'June',
-                    'July',
-                  ],
-                  data: [0, 13000, 5000, 24000, 16000, 25000, 10000].reverse(),
-                })}
-                options={stackLineChartOptions}
-              />
-              <CardBody
-                className="text-primary"
-                style={{ position: 'absolute', right: 0 }}
-              >
-                <CardTitle>
-                  <MdInsertChart /> Profit
-                </CardTitle>
-              </CardBody>
-            </Card>
-          </Col>
-        </Row>
-
-        <Row>
-          <Col lg="4" md="12" sm="12" xs="12">
+        <Col lg="4" md="4" sm="4" xs="5">
             <InfiniteCalendar
               selected={today}
               minDate={lastWeek}
@@ -334,75 +315,436 @@ class DashboardPage extends React.Component {
               }}
             />
           </Col>
+      
 
-          <Col lg="8" md="12" sm="12" xs="12">
-            <Card inverse className="bg-gradient-primary">
-              <CardHeader className="bg-gradient-primary">
-                Map with bubbles
-              </CardHeader>
-              <CardBody>
-                <MapWithBubbles />
-              </CardBody>
-            </Card>
-          </Col>
+
         </Row>
 
-        <CardDeck style={{ marginBottom: '1rem' }}>
-          <Card body style={{ overflowX: 'auto','paddingBottom':'15px','height': 'fit-content','paddingTop': 'inherit'}}>
-            <HorizontalAvatarList
-              avatars={avatarsData}
-              avatarProps={{ size: 50 }}
-            />
-          </Card>
 
-          <Card body style={{ overflowX: 'auto','paddingBottom':'15px','height': 'fit-content','paddingTop': 'inherit'}}>
-            <HorizontalAvatarList
-              avatars={avatarsData}
-              avatarProps={{ size: 50 }}
-              reversed
-            />
-          </Card>
-        </CardDeck>
 
         <Row>
-          <Col lg="4" md="12" sm="12" xs="12">
-            <AnnouncementCard
-              color="gradient-secondary"
-              header="Announcement"
-              avatarSize={60}
-              name="Jamy"
-              date="1 hour ago"
-              text="Lorem ipsum dolor sit amet,consectetuer edipiscing elit,sed diam nonummy euismod tinciduntut laoreet doloremagna"
-              buttonProps={{
-                children: 'show',
-              }}
-              style={{ height: 500 }}
-            />
-          </Col>
 
-          <Col lg="4" md="12" sm="12" xs="12">
+          
+          <Col md="6" sm="12" xs="12">
             <Card>
-              <CardHeader>
-                <div className="d-flex justify-content-between align-items-center">
-                  <span>Support Tickets</span>
-                  <Button>
-                    <small>View All</small>
-                  </Button>
-                </div>
-              </CardHeader>
+              <CardHeader>Top 5 Sales People</CardHeader>
               <CardBody>
-                {supportTicketsData.map(supportTicket => (
-                  <SupportTicket key={supportTicket.id} {...supportTicket} />
-                ))}
+                <UserProgressTable
+                  headers={[
+                    <MdPersonPin size={25} />,
+                    'name',
+                    'date',
+                    'completion',
+                    '%',
+                  ]}
+                  usersData={userProgressTableData}
+                />
               </CardBody>
             </Card>
           </Col>
 
-          <Col lg="4" md="12" sm="12" xs="12">
-            <TodosCard todos={todosData} />
+             
+          <Col md="6" sm="12" xs="12">
+            <Card>
+              <CardHeader>Bottom 5 Sales People</CardHeader>
+              <CardBody>
+                <UserProgressTable
+                  headers={[
+                    <MdPersonPin size={25} />,
+                    'name',
+                    'date',
+                    'completion',
+                    '%',
+                  ]}
+                  usersData={userProgressTableData}
+                />
+              </CardBody>
+            </Card>
           </Col>
         </Row>
+
+
+       <Row>
+       <Col xl={12} lg={12} md={12}>
+          <Card>
+            <CardHeader>Add User</CardHeader>
+            <CardBody>
+              <Form>
+              <FormGroup>
+                  <Label for="exampleName">Name</Label>
+                  <Input
+                    type="text"
+                    name="text"
+                    placeholder="with a placeholder"
+                  />
+                </FormGroup>
+                <FormGroup>
+                  <Label for="exampleSurname">Surname</Label>
+                  <Input
+                    type="text"
+                    name="text"
+                    placeholder="with a placeholder"
+                  />
+                </FormGroup>
+              <FormGroup>
+                  <Label for="exampleEmail">Email</Label>
+                  <Input
+                    type="email"
+                    name="email"
+                    placeholder="with a placeholder"
+                  />
+                </FormGroup>
+                <FormGroup>
+                  <Label for="examplePassword">Password</Label>
+                  <Input
+                    type="password"
+                    name="password"
+                    placeholder="password placeholder"
+                  />
+                </FormGroup>
+                <FormGroup>
+                  <Label for="exampleSelect">Branch</Label>
+                  <Input type="select" name="select">
+                    <option value="">Select Branch...</option>
+                    <option value="Main Branch">Main Branch (Main Mall)</option>
+                    <option value="Mall Branch">Mall Branch (Game City)</option>
+                    <option value="Molepolole Branch">Molepolole Branch (Mafenyatlala Mall)</option>
+                    <option value="Francistown Branch">Francistown Branch (Galo Mall)</option>
+                    <option value="Ghanzi Branch">Ghanzi Branch</option>
+                  </Input>
+                </FormGroup>
+                <Button type="submit">Add</Button>
+              </Form>
+            </CardBody>
+          </Card>
+        </Col>              
+       </Row>
+   
+       <Row>
+        <Col md="12" sm="12" xs="12">
+              <Card>
+                <CardHeader>Sales Team</CardHeader>
+                <CardBody>
+                  <UserProgressTable
+                    headers={[
+                      <MdPersonPin size={25} />,
+                      'name',
+                      'date',
+                      'completion',
+                      '%',
+                    ]}
+                    usersData={userProgressTableData}
+                  />
+                </CardBody>
+              </Card>
+            </Col>
+     
+      </Row>  
+
+      <Row>
+        <Col xl={6} lg={12} md={12}>
+          <Card className="mb-3">
+            <CardHeader>Unassigned Leads</CardHeader>
+            <CardBody>
+              <Table responsive>
+                <thead>
+                  <tr>
+                    <th>Lead ID</th>
+                    <th>Name</th>
+                    <th>Cell no.</th>
+                    <th>Reason</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row">1</th>
+                    <td>Mark Lewis</td>
+                    <td>71454454</td>
+                    <td>@mdo</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">2</th>
+                    <td>Jacob Thornton</td>
+                    <td>72255456</td>
+                    <td>@fat</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">3</th>
+                    <td>Larry the Bird</td>
+                    <td>711454454</td>
+                    <td>@twitter</td>
+                  </tr>
+                </tbody>
+              </Table>
+            </CardBody>
+          </Card>
+        </Col>
+        <Col xl={6} lg={12} md={12}>
+          <Card>
+            <CardHeader>Reasign Lead</CardHeader>
+            <CardBody>
+              <Form inline>
+                <FormGroup>
+                  <Label for="exampleEmail" hidden>
+                    Lead ID
+                  </Label>
+                  <Input type="text" name="text" placeholder="Lead ID" />
+                </FormGroup>{' '}
+                <FormGroup>
+                  <Label for="examplePassword" hidden>
+                    User ID
+                  </Label>
+                  <Input
+                    type="text"
+                    name="text"
+                    placeholder="User ID"
+                  />
+                </FormGroup>{' '}
+                <Button>Assign</Button>
+              </Form>
+            </CardBody>
+          </Card>
+        </Col>
+
+        <Col xl={6} lg={12} md={12}>
+          <Card>
+            <CardHeader>Delete Lead</CardHeader>
+            <CardBody>
+              <Form inline>
+                <FormGroup>
+                  <Label for="exampleLead" hidden>
+                    Lead ID
+                  </Label>
+                  <Input type="text" name="text" placeholder="Lead ID" />
+                </FormGroup>{' '}
+                <Button>Delete</Button>
+              </Form>
+            </CardBody>
+          </Card>
+        </Col>
+        
+      </Row>
+
       </Page>
+
+      <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+
+      <Page
+        className="DashboardPage"
+        title="Sales Team Dashboard"
+        breadcrumbs={[{ name: 'Dashboard', active: true }]}
+      >
+
+      <Row>
+        <Col lg={6} md={6} sm={6} xs={12}>
+            <NumberWidget
+              title="Number of Assigned Leads"
+              number="20"
+             
+            />
+          </Col>
+
+          <Col lg={6} md={6} sm={6} xs={12}>
+            <NumberWidget
+              title="Completed"
+              number="12 (60%)"
+            />
+          </Col>
+           
+      </Row>              
+
+      <Row>
+        
+      <Col xl={6} lg={4} md={4}>
+          <Card>
+            <CardHeader>Pending Leads</CardHeader>
+
+            <CardBody>
+              <Row>
+                    
+
+              <Col xl={12} lg={12} md={12}>
+        <Card className="mb-3">
+            <CardHeader>ID: 1</CardHeader>
+            <CardBody>
+              <span>Name: Thabang Isaka</span><br/>
+              <span>Phone no: 72661271</span><br/>
+              <span>Reason: 9 month Tribesman</span><br/>
+              <span>Location: Main Mall</span><br/><br/>
+
+              <Form>
+              <FormGroup>
+                  <Input type="text" name="text" placeholder="Outcome" />
+                </FormGroup>{' '}
+                <Button>Mark Complete</Button>    
+              </Form>  
+
+            </CardBody>
+          </Card>
+        </Col>
+        
+        <Col xl={12} lg={12} md={12}>
+        <Card className="mb-3">
+            <CardHeader>ID: 2</CardHeader>
+            <CardBody>
+              <span>Name: Grace Mogami</span><br/>
+              <span>Phone no: 72661271</span><br/>
+              <span>Reason: 6 month Tribesman</span><br/>
+              <span>Location: Main Mall</span><br/><br/>
+
+              <Form>
+              <FormGroup>
+                  <Input type="text" name="text" placeholder="Outcome" />
+                </FormGroup>{' '}
+                <Button>Mark Complete</Button>    
+              </Form>        
+
+            </CardBody>
+          </Card>
+        </Col>
+
+        <Col xl={12} lg={12} md={12}>
+        <Card className="mb-3">
+            <CardHeader>ID: 3</CardHeader>
+            <CardBody>
+              <span>Name: Thapelo Robert</span><br/>
+              <span>Phone no: 72661271</span><br/>
+              <span>Reason: 9 month Tribesman</span><br/>
+              <span>Location: Francistown</span><br/><br/>
+
+              <Form>
+              <FormGroup>
+                  <Input type="text" name="text" placeholder="Outcome" />
+                </FormGroup>{' '}
+                <Button>Mark Complete</Button>    
+              </Form>       
+
+
+            </CardBody>
+          </Card>
+        </Col>
+
+        <Col xl={12} lg={12} md={12}>
+        <Card className="mb-3">
+            <CardHeader>ID: 4</CardHeader>
+            <CardBody>
+              <span>Name: Thato Radebe</span><br/>
+              <span>Phone no: 72661271</span><br/>
+              <span>Reason: 6 month Tribesman</span><br/>
+              <span>Location: Main Mall</span><br/><br/>
+
+              <Form>
+              <FormGroup>
+                  <Input type="text" name="text" placeholder="Outcome" />
+                </FormGroup>{' '}
+                <Button>Mark Complete</Button>    
+              </Form>        
+
+            </CardBody>
+          </Card>
+        </Col>
+
+              </Row>
+
+            </CardBody>
+          </Card>
+        </Col>
+
+        <Col xl={6} lg={4} md={4}>
+          <Card>
+            <CardHeader>Completed Leads</CardHeader>
+
+            <CardBody>
+              <Row>
+                    
+
+              <Col xl={12} lg={12} md={12}>
+        <Card className="mb-3">
+            <CardHeader>ID: 1</CardHeader>
+            <CardBody>
+              <span>Name: Thabiso Moeng</span><br/>
+              <span>Phone no: 72661271</span><br/>
+              <span>Reason: 6 month Tribesman</span><br/>
+              <span>Location: Main Mall</span><br/>
+              <span>Outcome: Asked for more information regarding savings accounts.</span>      
+              <br/><br/>Status:<span style={{color:'#00FF25'}}> Confirmed</span>     
+
+
+            </CardBody>
+          </Card>
+        </Col>
+        
+        <Col xl={12} lg={12} md={12}>
+        <Card className="mb-3">
+            <CardHeader>ID: 21</CardHeader>
+            <CardBody>
+              <span>Name: Gladys Moremi</span><br/>
+              <span>Phone no: 74455443</span><br/>
+              <span>Reason: 9 month Tribesman</span><br/>
+              <span>Location: Francistown</span><br/>
+              <span>Outcome: Meeting booked</span>      
+              <br/><br/>Status: <span style={{color:'#FF002C'}}> Pending confirmation from lead</span>
+
+            </CardBody>
+          </Card>
+        </Col>
+
+        <Col xl={12} lg={12} md={12}>
+        <Card className="mb-3">
+            <CardHeader>ID: 13</CardHeader>
+            <CardBody>
+              <span>Name: Resego T</span><br/>
+              <span>Phone no: 73223322</span><br/>
+              <span>Reason: 9 month Tribesman</span><br/>
+              <span>Location: Francistown</span><br/>
+              <span>Outcome: Meeting booked</span>      
+              <br/><br/>Status:<span style={{color:'#00FF25'}}> Confirmed</span>     
+
+
+            </CardBody>
+          </Card>
+        </Col>
+
+        <Col xl={12} lg={12} md={12}>
+        <Card className="mb-3">
+            <CardHeader>ID: 44</CardHeader>
+            <CardBody>
+              <span>Name: Tim Shaww</span><br/>
+              <span>Phone no: 72661271</span><br/>
+              <span>Reason: 6 month Tribesman</span><br/>
+              <span>Location: Main Mall</span><br/>
+              <span>Outcome: Signed up for 6 month Tribesman</span>      
+              <br/><br/>Status: <span style={{color:'#FF002C'}}> Pending confirmation from lead</span>     
+
+            </CardBody>
+          </Card>
+        </Col>
+
+              </Row>
+
+            </CardBody>
+          </Card>
+        </Col>
+
+      </Row>     
+
+      <Row>
+        
+      <Col xl={8} lg={12} md={12}>
+          <Card>
+            <CardHeader>My Performance vs Team Average</CardHeader>
+            <CardBody>
+              <Bar data={genLineBarData({ type: 'bar', fill: false })} />
+            </CardBody>
+          </Card>
+        </Col>            
+        
+      </Row>         
+              
+
+      </Page>
+
+      </React.Fragment>
     );
   }
 }

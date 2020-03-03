@@ -20,49 +20,60 @@ import user12Image from 'assets/img/users/100_12.jpg';
 import user13Image from 'assets/img/users/100_13.jpg';
 import user14Image from 'assets/img/users/100_14.jpg';
 
-export const productsData = [
+export const regionData = [
   {
     id: 1,
     image: product1Image,
-    title: 'Admin Template',
-    description: 'Responsive admin template...',
-    right: '$36',
+    title: 'SE',
+    right: '216',
   },
   {
     id: 2,
     image: product2Image,
-    title: 'Schedule App',
-    description: 'Manage your schedule...',
-    right: '$9',
+    title: 'NE',
+    right: '88',
   },
   {
     id: 3,
     image: product3Image,
-    title: 'Chat App',
-    description: 'Realtime chat application...',
-    right: '$12',
+    title: 'Chobe',
+    right: '64',
   },
   {
     id: 4,
     image: product4Image,
-    title: 'Wordpress Business Theme',
-    description: 'Over 100+ templates and pages...',
-    right: '$24',
+    title: 'Central',
+    right: '53',
+  },
+
+];
+
+export const reasonData = [
+  {
+    id: 1,
+    image: product1Image,
+    title: 'Product 1',
+    right: '226',
   },
   {
-    id: 5,
-    image: product5Image,
-    title: 'Camera App',
-    description: 'Over 30+ filter...',
-    right: '$6.99',
+    id: 2,
+    image: product2Image,
+    title: 'Product 2',
+    right: '188',
   },
   {
-    id: 6,
-    image: product6Image,
-    title: 'Calendar App',
-    description: 'Organize your schedule...',
-    right: '$0.99',
+    id: 3,
+    image: product3Image,
+    title: 'Inquiry',
+    right: '94',
   },
+  {
+    id: 4,
+    image: product4Image,
+    title: 'Other',
+    right: '65',
+  },
+
 ];
 
 export const avatarsData = [
@@ -218,7 +229,7 @@ export const todosData = [
 export const chartjs = {
   bar: {
     data: {
-      labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+      labels: ['January', 'Feb', 'March', 'April', 'May', 'June', 'July'],
       datasets: [
         {
           label: 'Expense for this year',
